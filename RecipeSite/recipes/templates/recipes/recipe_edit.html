@@ -1,0 +1,16 @@
+{% extends 'recipes/base.html' %}
+
+{% block title %}Редактировать рецепт - Сайт с рецептами{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mt-3">Редактировать рецепт</h2>
+            <form method="post" {% if recipe.pk %}action="{% url 'recipe_edit' pk=recipe.pk %}"{% endif %} enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
