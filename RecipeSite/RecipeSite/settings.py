@@ -26,7 +26,18 @@ SECRET_KEY = 'django-insecure-252)ztfg50xj6-gl94+9^qx0te67&y@m(fxrdnsl-@9fgomud2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS = ['gb.bonew.ru', '192.168.95.53','localhost', '127.0.0.1']
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+    # '192.168.95.0/24',
+    # 'gb.bonew.ru',
+]
+
 
 
 # Application definition
@@ -42,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,8 +81,6 @@ TEMPLATES = [
         },
     },
 ]
-
-
 
 
 WSGI_APPLICATION = 'RecipeSite.wsgi.application'
@@ -145,7 +155,7 @@ LOGGING = {
         },
         'simple': {'format': '%(levelname)s %(message)s'},
     },
-    'handlers': {   
+    'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
@@ -168,3 +178,4 @@ LOGGING = {
         },
     },
 }
+

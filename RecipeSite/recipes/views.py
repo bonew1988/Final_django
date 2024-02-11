@@ -37,7 +37,6 @@ def recipe_edit(request, pk=None):
     return render(request, 'recipes/recipe_edit.html', {'form': form, 'recipe': recipe})
 
 
-
 # recipes/views.py
 
 
