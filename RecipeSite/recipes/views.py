@@ -8,6 +8,11 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
+
+
+
+
 
 
 def home(request):
@@ -37,7 +42,7 @@ def recipe_edit(request, pk=None):
     return render(request, 'recipes/recipe_edit.html', {'form': form, 'recipe': recipe})
 
 
-# recipes/views.py
+
 
 
 def recipe_home(request):
@@ -52,8 +57,20 @@ def recipe_list(request):
     return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
 
 
+@login_required
 def recipe_detail(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk)
+
+    if request.method == 'POST' and request.user == recipe.author:
+        # Если запрос POST и пользователь - автор рецепта, обработайте редактирование и удаление
+        if 'edit' in request.POST:
+            # Логика для редактирования рецепта
+            return redirect('recipe_edit', pk=recipe.pk)
+        elif 'delete' in request.POST:
+            # Логика для удаления рецепта
+            recipe.delete()
+            return redirect('recipe_list')
+
     return render(request, 'recipes/recipe_detail.html', {'recipe': recipe})
 
 
@@ -69,6 +86,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
+@csrf_exempt
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)

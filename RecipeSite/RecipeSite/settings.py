@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 """
 Django settings for RecipeSite project.
@@ -11,7 +12,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,18 +26,18 @@ SECRET_KEY = 'django-insecure-252)ztfg50xj6-gl94+9^qx0te67&y@m(fxrdnsl-@9fgomud2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = ['gb.bonew.ru', '192.168.95.53','localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['gb.bonew.ru', '192.168.95.53',
+                 'localhost', '0.0.0.0', '127.0.0.1', '*']
 
 
 INTERNAL_IPS = [
     '127.0.0.1',
+    '192.168.95.20',
+    '192.168.95.53',
     # '192.168.95.0/24',
-    # 'gb.bonew.ru',
+    # 'gb.bonew.ru',CSRF_TRUSTED_ORIGINS=["https://subdomain.example.com"]
 ]
-
 
 
 # Application definition
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'recipes',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,9 +59,18 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+
+    'http://localhost:8000',
+    'http://192.168.95.58',
+    'https://gb.bonew.ru',
+
 ]
 
 ROOT_URLCONF = 'RecipeSite.urls'
@@ -75,6 +85,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.csrf',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -179,3 +190,8 @@ LOGGING = {
     },
 }
 
+LOGIN_URL = 'login'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = []
